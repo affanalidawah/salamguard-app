@@ -273,7 +273,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           isHaramBlocked = false;
           modal.classList.add("hidden");
           showModal(
-            "❌ Error: There was a problem. Please make sure you are connected to the internet and try again. Feel free to email us for help."
+            "❌ Error: There was a problem. Feel free to email us for help at contact@salamguard.com."
           );
         }
 

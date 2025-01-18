@@ -16,6 +16,7 @@
       "output": "dist"
     },
     "mac": {
+      "icon": "build/icon.icns",
       "category": "public.app-category.utilities",
       "target": {
         "target": "default",
