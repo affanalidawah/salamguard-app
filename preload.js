@@ -9,14 +9,26 @@ contextBridge.exposeInMainWorld("electron", {
   addCustomUrl: (url) => {
     ipcRenderer.send("add-custom-url", url);
   },
-  onNotify: (callback) =>
-    ipcRenderer.on("notify", (_, args) => {
-      callback(args);
-    }),
+  onNotify: (callback) => {
+    const subscription = (_event, args) => callback(args);
+    ipcRenderer.on("notify", subscription);
+    
+    // Return cleanup function
+    return () => {
+      ipcRenderer.removeListener("notify", subscription);
+    };
+  },
   removeCustomUrl: (url) => ipcRenderer.send("remove-custom-url", url),
   getCustomList: () => ipcRenderer.invoke("get-custom-list"),
-  onUpdateCustomList: (callback) =>
-    ipcRenderer.on("update-custom-list", (_, args) => callback(args)),
+  onUpdateCustomList: (callback) => {
+    const subscription = (_event, args) => callback(args);
+    ipcRenderer.on("update-custom-list", subscription);
+    
+    // Return cleanup function
+    return () => {
+      ipcRenderer.removeListener("update-custom-list", subscription);
+    };
+  },
   blockHaramContent: () => ipcRenderer.send("block-haram-content"),
   onBlocklistError: (callback) =>
     ipcRenderer.on("blocklist-error", (_, message) => callback(message)),

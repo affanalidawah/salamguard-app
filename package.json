@@ -33,22 +33,29 @@
       }
     },
     "win": {
-      "target": ["nsis", "portable"]
+      "target": [
+        "nsis",
+        "portable"
+      ]
     },
     "linux": {
-      "target": ["AppImage", "deb"],
+      "target": [
+        "AppImage",
+        "deb"
+      ],
       "category": "Utility"
     }
   },
   "dependencies": {
     "axios": "^1.7.9",
     "cli-progress": "^3.12.0",
+    "electron-log": "^4.4.8",
     "fs-extra": "^11.1.1",
     "sudo-prompt": "^9.2.1"
   },
   "devDependencies": {
-    "electron-builder": "^24.13.3",
-    "electron": "^26.2.0"
+    "electron": "^26.2.0",
+    "electron-builder": "^24.13.3"
   },
   "author": "Affan Ali <affanalidawah@gmail.com>",
   "license": "MIT"

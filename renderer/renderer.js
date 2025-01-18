@@ -221,6 +221,10 @@ document.addEventListener("DOMContentLoaded", async () => {
       return;
     }
 
+    // Show loading state
+    addButton.disabled = true;
+    addButton.textContent = "Adding...";
+
     // Submit the cleaned domain
     window.electron.addCustomUrl(cleanedDomain);
 
@@ -264,7 +268,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (result.status === 1) {
           isHaramBlocked = true;
           modal.classList.add("hidden");
-          showModal("Your computer is now protected.");
+          showModal("Your computer is now protected from over 50,000 Haram sites. You do not need to keep the app running for the block to work. Uninstalling the app will not remove the block.");
         } else {
           isHaramBlocked = false;
           modal.classList.add("hidden");
@@ -614,6 +618,15 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   initializeRecommendedSites();
+
+  // Enhance the update listener
+  window.electron.onUpdateCustomList((customUrls) => {
+    console.log("Received custom URL update:", customUrls);
+    renderCustomUrls(customUrls);
+    // Reset button state
+    addButton.disabled = false;
+    addButton.textContent = "Block Website";
+  });
 
   // Initialize App
   await verifyBlockedUrls();

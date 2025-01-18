@@ -253,9 +253,11 @@ const addCustomUrl = (url, callback) => {
 };
 
 const updateCustomUrls = (url, callback) => {
+  const customUrlsPath = require('../utils').getCustomUrlsPath();
   const customUrls = readJsonFile(customUrlsPath);
 
   console.log("Before updating custom URLs:", customUrls);
+  console.log("Writing to path:", customUrlsPath);
 
   if (!customUrls.includes(url)) {
     customUrls.push(url);

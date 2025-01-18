@@ -45,7 +45,17 @@ function writeJsonFile(filePath, data) {
     console.error(`Error writing to JSON file at ${filePath}:`, err);
   }
 }
-const customUrlsPath = path.join(__dirname, "customUrls.json");
+
+let resolvedCustomUrlsPath = null;
+
+function getCustomUrlsPath() {
+  if (!resolvedCustomUrlsPath) {
+    resolvedCustomUrlsPath = process.env.NODE_ENV === 'development'
+      ? path.join(__dirname, "customUrls.json")
+      : path.join(require('electron').app.getPath('userData'), "customUrls.json");
+  }
+  return resolvedCustomUrlsPath;
+}
 
 const githubBlocklistUrls = [
   "https://raw.githubusercontent.com/4skinSkywalker/Anti-Porn-HOSTS-File/refs/heads/master/HOSTS.txt",
@@ -157,7 +167,7 @@ module.exports = {
   ensureFileExists,
   readJsonFile,
   writeJsonFile,
-  customUrlsPath,
+  getCustomUrlsPath,
   hostsPath,
   fetchBlocklistFromGitHub,
   updateDefaultBlocklist,

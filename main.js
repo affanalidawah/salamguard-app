@@ -14,7 +14,7 @@ const {
   ensureFileExists,
   readJsonFile,
   writeJsonFile,
-  customUrlsPath,
+  getCustomUrlsPath,
   hostsPath,
   fetchBlocklistFromGitHub
 } = require("./utils");
@@ -22,10 +22,19 @@ const {
 let mainWindow;
 const configPath = path.join(app.getPath("userData"), "config.json");
 
-ensureFileExists(customUrlsPath, []);
+ensureFileExists(getCustomUrlsPath(), []);
 ensureFileExists(configPath);
 
 app.on("ready", () => {
+  // Enable logging to a file in production
+  if (app.isPackaged) {
+    const log = require('electron-log');
+    log.transports.file.level = 'debug';
+    console.log = log.log;
+    console.error = log.error;
+    console.debug = log.debug;
+  }
+  
   mainWindow = new BrowserWindow({
     width: 1250,
     height: 800,
@@ -33,6 +42,7 @@ app.on("ready", () => {
       preload: path.join(__dirname, "preload.js"),
       contextIsolation: true,
       nodeIntegration: false,
+      devTools: true
     },
   });
 
@@ -74,7 +84,7 @@ app.on("ready", () => {
     readConfig((updatedConfig) => {
       mainWindow.webContents.send("initial-config", updatedConfig); // Send updated config
     });
-    const customUrls = readJsonFile(customUrlsPath);
+    const customUrls = readJsonFile(getCustomUrlsPath());
     mainWindow.webContents.send("update-custom-list", customUrls); // Send initial list
   });
 
@@ -121,7 +131,7 @@ ipcMain.on("add-custom-url", (event, url) => {
 
   addCustomUrl(url, (success, message) => {
     if (success) {
-      const customUrls = readJsonFile(customUrlsPath);
+      const customUrls = readJsonFile(getCustomUrlsPath());
       event.reply("update-custom-list", customUrls);
     }
 
@@ -133,9 +143,9 @@ ipcMain.on("add-custom-url", (event, url) => {
 ipcMain.on("remove-custom-url", (event, url) => {
   removeCustomUrl(url, (success, message) => {
     if (success) {
-      let customUrls = readJsonFile(customUrlsPath);
+      let customUrls = readJsonFile(getCustomUrlsPath());
       customUrls = customUrls.filter((item) => item !== url);
-      writeJsonFile(customUrlsPath, customUrls);
+      writeJsonFile(getCustomUrlsPath(), customUrls);
       event.reply("update-custom-list", customUrls);
     }
     event.reply("notify", { success, message });
@@ -144,12 +154,12 @@ ipcMain.on("remove-custom-url", (event, url) => {
 
 // Send the initial custom URL list on app start
 ipcMain.handle("get-custom-list", () => {
-  return readJsonFile(customUrlsPath);
+  return readJsonFile(getCustomUrlsPath());
 });
 
 ipcMain.handle("update-custom-urls-json", (_, updatedUrls) => {
   try {
-    writeJsonFile(customUrlsPath, updatedUrls);
+    writeJsonFile(getCustomUrlsPath(), updatedUrls);
     return true;
   } catch (error) {
     console.error("Failed to update customUrls.json:", error);
