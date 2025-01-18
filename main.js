@@ -1,6 +1,8 @@
 const fs = require("fs");
 const path = require("path");
-const { app, BrowserWindow, ipcMain } = require("electron");
+const { app, autoUpdater, BrowserWindow, ipcMain } = require("electron");
+// const {autoUpdater} = require("electron-updater");
+const log = require('electron-log');
 const {
   addCustomUrl,
   removeCustomUrl,
@@ -22,18 +24,11 @@ const {
 let mainWindow;
 const configPath = path.join(app.getPath("userData"), "config.json");
 
+
 ensureFileExists(getCustomUrlsPath(), []);
 ensureFileExists(configPath);
 
 app.on("ready", () => {
-  // Enable logging to a file in production
-  if (app.isPackaged) {
-    const log = require('electron-log');
-    log.transports.file.level = 'debug';
-    console.log = log.log;
-    console.error = log.error;
-    console.debug = log.debug;
-  }
   
   mainWindow = new BrowserWindow({
     width: 1250,
@@ -42,9 +37,33 @@ app.on("ready", () => {
       preload: path.join(__dirname, "preload.js"),
       contextIsolation: true,
       nodeIntegration: false,
-      devTools: true
     },
   });
+
+   // Check for updates and notify
+   const server = 'https://update.electronjs.org';
+   const feed = `${server}/affanalidawah/salamguard-app/${process.platform}-${process.arch}/${app.getVersion()}`;
+   autoUpdater.setFeedURL(feed);
+ 
+   autoUpdater.on('update-available', () => {
+     dialog.showMessageBox({
+       type: 'info',
+       title: 'Update Available',
+       message: 'A new version is available. Downloading now...',
+     });
+   });
+ 
+   autoUpdater.on('update-downloaded', () => {
+     dialog.showMessageBox({
+       type: 'info',
+       title: 'Update Ready',
+       message: 'A new version has been downloaded. Restart the app to apply the updates.',
+     }).then(() => {
+       autoUpdater.quitAndInstall();
+     });
+   });
+ 
+   autoUpdater.checkForUpdates();
 
   ipcMain.handle("get-blocklist", async () => {
     return await fetchBlocklistFromGitHub();
