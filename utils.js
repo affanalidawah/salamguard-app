@@ -126,7 +126,6 @@ const fetchBlocklistFromGitHub = async () => {
     urlSet.add("exampleadultsite.com");
     urlSet.add("wattpad.com");
     urlSet.add("archiveofourown.org");
-    urlSet.delete("target.com");
 
     // If we failed to get any URLs from GitHub, use the default list
     if (urlSet.size === 0) {
