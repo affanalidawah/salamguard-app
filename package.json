@@ -1,0 +1,69 @@
+{
+  "name": "salam-guard",
+  "version": "1.0.1",
+  "description": "An app for blocking websites.",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder",
+    "build": "electron-builder build --mac --publish never"
+  },
+  "build": {
+    "appId": "com.salamguard.app",
+    "productName": "Salam Guard",
+    "directories": {
+      "output": "dist"
+    },
+    "publish": [{
+      "provider": "github",
+      "owner": "affanalidawah",
+      "repo": "salamguard-app"
+    }],
+    "mac": {
+      "icon": "build/icon.icns",
+      "category": "public.app-category.utilities",
+      "target": {
+        "target": "default",
+        "arch": "universal"
+      },
+      "hardenedRuntime": true,
+      "gatekeeperAssess": false,
+      "entitlements": "build/entitlements.mac.plist",
+      "entitlementsInherit": "build/entitlements.mac.plist",
+      "identity": null,
+      "extendInfo": {
+        "NSSystemAdministrationUsageDescription": "This app needs to modify system files to block websites.",
+        "LSMinimumSystemVersion": "10.12.0",
+        "NSRequiresFullDisk": true
+      }
+    },
+    "win": {
+      "target": [
+        "nsis",
+        "portable"
+      ]
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ],
+      "category": "Utility"
+    }
+  },
+  "dependencies": {
+    "axios": "^1.7.9",
+    "cli-progress": "^3.12.0",
+    "electron-log": "^4.4.8",
+    "electron-updater": "^6.3.9",
+    "fs-extra": "^11.1.1",
+    "sudo-prompt": "^9.2.1"
+  },
+  "devDependencies": {
+    "electron": "^26.2.0",
+    "electron-builder": "^24.13.3"
+  },
+  "author": "Affan Ali <affanalidawah@gmail.com>",
+  "license": "MIT"
+}
