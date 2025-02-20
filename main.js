@@ -18,7 +18,8 @@ const {
   writeJsonFile,
   getCustomUrlsPath,
   hostsPath,
-  fetchBlocklistFromGitHub
+  fetchBlocklistFromGitHub,
+  checkLatestVersion
 } = require("./utils");
 
 let mainWindow;
@@ -29,7 +30,6 @@ ensureFileExists(getCustomUrlsPath(), []);
 ensureFileExists(configPath);
 
 app.on("ready", () => {
-  
   mainWindow = new BrowserWindow({
     width: 1250,
     height: 800,
@@ -40,30 +40,18 @@ app.on("ready", () => {
     },
   });
 
-   // Check for updates and notify
-  //  const server = 'https://update.electronjs.org';
-  //  const feed = `${server}/affanalidawah/salamguard-app/${process.platform}-${process.arch}/${app.getVersion()}`;
-  //  autoUpdater.setFeedURL(feed);
- 
-  //  autoUpdater.on('update-available', () => {
-  //    dialog.showMessageBox({
-  //      type: 'info',
-  //      title: 'Update Available',
-  //      message: 'A new version is available. Downloading now...',
-  //    });
-  //  });
- 
-  //  autoUpdater.on('update-downloaded', () => {
-  //    dialog.showMessageBox({
-  //      type: 'info',
-  //      title: 'Update Ready',
-  //      message: 'A new version has been downloaded. Restart the app to apply the updates.',
-  //    }).then(() => {
-  //      autoUpdater.quitAndInstall();
-  //    });
-  //  });
- 
-  //  autoUpdater.checkForUpdates();
+  mainWindow.loadFile(path.join(__dirname, "renderer/index.html"));
+
+  // Check version after window loads
+  mainWindow.webContents.on("did-finish-load", async () => {
+    const versionInfo = await checkLatestVersion();
+    if (versionInfo.needsUpdate && !versionInfo.error) {
+      mainWindow.webContents.send('version-update-available', {
+        current: versionInfo.currentVersion,
+        latest: versionInfo.latestVersion
+      });
+    }
+  });
 
   ipcMain.handle("get-blocklist", async () => {
     return await fetchBlocklistFromGitHub();
@@ -106,8 +94,6 @@ app.on("ready", () => {
     const customUrls = readJsonFile(getCustomUrlsPath());
     mainWindow.webContents.send("update-custom-list", customUrls); // Send initial list
   });
-
-  mainWindow.loadFile(path.join(__dirname, "renderer/index.html"));
 });
 
 ipcMain.on("check-blocklist-integrity", (event) => {

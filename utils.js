@@ -160,7 +160,38 @@ async function updateDefaultBlocklist() {
   }
 }
 
+async function checkLatestVersion() {
+  try {
+    const response = await axios.get('https://raw.githubusercontent.com/affanalidawah/salamguard-app/refs/heads/main/version.txt', {
+      timeout: 5000 // 5 second timeout
+    });
+    
+    if (!response.data || typeof response.data !== 'string') {
+      return { needsUpdate: false, error: 'Invalid version data' };
+    }
 
+    const latestVersion = response.data.trim();
+    const currentVersion = require('./package.json').version;
+    
+    // Validate version format (e.g., "1.0.0")
+    const versionRegex = /^\d+\.\d+\.\d+$/;
+    if (!versionRegex.test(latestVersion) || !versionRegex.test(currentVersion)) {
+      return { needsUpdate: false, error: 'Invalid version format' };
+    }
+
+    return {
+      needsUpdate: latestVersion !== currentVersion,
+      latestVersion,
+      currentVersion
+    };
+  } catch (error) {
+    console.error('Failed to check latest version:', error);
+    return { 
+      needsUpdate: false, 
+      error: error.message 
+    };
+  }
+}
 
 module.exports = {
   ensureFileExists,
@@ -170,4 +201,5 @@ module.exports = {
   hostsPath,
   fetchBlocklistFromGitHub,
   updateDefaultBlocklist,
+  checkLatestVersion,
 };

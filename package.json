@@ -11,7 +11,7 @@
   },
   "build": {
     "appId": "com.salamguard.app",
-    "productName": "Salam Guard",
+    "productName": "SalamGuard",
     "directories": {
       "output": "dist"
     },

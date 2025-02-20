@@ -50,6 +50,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   }
 
+  window.electron.onVersionUpdateAvailable((versionInfo) => {
+    showVersionUpdateModal(versionInfo);
+  });
+
   async function fetchAndDisplayBlocklist() {
     try {
       const blocklist = await window.electron.getBlocklistUrls();
@@ -631,4 +635,19 @@ document.addEventListener("DOMContentLoaded", async () => {
   // Initialize App
   await verifyBlockedUrls();
 });
+
+function showVersionUpdateModal(versionInfo) {
+  const versionModal = document.getElementById("version-modal");
+  const versionModalMessage = document.getElementById("version-modal-message");
+  const versionModalClose = document.getElementById("version-modal-close");
+
+  versionModalMessage.innerHTML = `A new version of SalamGuard is available (${versionInfo.latest}).<br><br>
+    Please visit <a href="https://salamguard.com/mac" target="_blank" style="color: #8af6e5;">salamguard.com/mac</a> to download the latest version.`;
+  
+  versionModal.classList.remove("hidden");
+  
+  versionModalClose.addEventListener("click", () => {
+    versionModal.classList.add("hidden");
+  }, { once: true });
+}
 

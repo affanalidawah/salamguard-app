@@ -29,10 +29,9 @@
             <li class="tab-item active" data-target="custom-sites">
               Block Sites
             </li>
-            <!-- <li class="tab-item" data-target="social-media-sites">
-              Accountability Buddy
+            <li class="tab-item" data-target="recommendations">
+              Recommendations
             </li>
-            <li class="tab-item" data-target="anime-sites">Panic</li> -->
           </ul>
 
           <div class="tab-content" id="custom-sites">
@@ -55,6 +54,72 @@
             </button>
           </div>
 
+          <div class="tab-content hidden" id="recommendations">
+            <h2>App & Extension Recommendations</h2>
+            <p>These tools can help strengthen your digital protection.</p>
+            
+            <div class="recommendations-container">
+              <div class="recommendation-section">
+                <h3>Recommended Apps</h3>
+                <div class="recommendation-grid">
+                  <div class="recommendation-card">
+                    <img src="../assets/images/brave.png" alt="Brave Browser" />
+                    <h4>Brave Browser</h4>
+                    <p>Built-in ad and tracker blocking. Works with Chrome extensions.</p>
+                    <a href="https://brave.com" target="_blank" class="recommendation-link">Download</a>
+                  </div>
+                  <div class="recommendation-card">
+                    <img src="../assets/images/warp.png" alt="Cloudflare 1.1.1.1" />
+                    <h4>Cloudflare 1.1.1.1</h4>
+                    <p>Secure DNS service that doubles down in helping block haram content. <br>
+                      <b>Note:</b> Make sure to turn on 'Block Malware and Adult Content' in the settings under the 
+                      '1.1.1.1 For Families' section.</p>
+        
+                    <a href="https://1.1.1.1" target="_blank" class="recommendation-link">Install</a>
+                  </div>
+                  <div class="recommendation-card">
+                    <img src="../assets/images/selfcontrol.png" alt="Brave Browser" />
+                    <h4>Self Control (Mac Only)</h4>
+                    <p>Blocks the whole internet for a custom period of time. Functions as a good 'Panic Button.'</p>
+                    <a href="https://selfcontrolapp.com/" target="_blank" class="recommendation-link">Download</a>
+                  </div>
+                </div>
+              </div>
+          
+              <div class="recommendation-section">
+                <h3>Recommended Extensions</h3>
+                <div class="recommendation-grid">
+                  <div class="recommendation-card">
+                    <img src="../assets/images/ublock.png" alt="uBlock Origin" />
+                    <h4>uBlock Origin</h4>
+                    <p>Ad and content blocker. Works with Brave, Chrome, and Firefox.</p>
+                    <a href="https://ublockorigin.com" target="_blank" class="recommendation-link">Install</a>
+                  </div>
+                  <div class="recommendation-card">
+                    <img src="../assets/images/tahir.png" alt="Tahir" />
+                    <h4>Tahir</h4>
+                    <p>Tahir
+                        allows you to blur images by default on any website you browse
+                      , with the option to uncover them if need be.</p>
+                    <a href="https://chromewebstore.google.com/detail/tahir/ihmoammkfbdpokfiiifajdkfglmfejca" target="_blank" class="recommendation-link">Install</a>
+                  </div>
+                  <div class="recommendation-card">
+                    <img src="../assets/images/haramblur.png" alt="Haram Blur" />
+                    <h4>Haram Blur</h4>
+                    <p>Haram Blur automatically detects "Haram" content in images and videos in real-time and blurs them to keep your browsing experience as "Halal" as possible. </p>
+                    <a href="https://chromewebstore.google.com/detail/haramblur-blur-haram-nsfw/pbcoegikffnadpahojjhgdladmmddeji" target="_blank" class="recommendation-link">Install</a>
+                  </div>
+                  <div class="recommendation-card">
+                    <img src="../assets/images/undistracted.png" alt="UnDistracted" />
+                    <h4>UnDistracted - Hide Facebook, YouTube Feeds</h4>
+                    <p>Remove Youtube Shorts, Trending, Recommendations, and blur thumbails. Also has similar features for Facebook, Twitter, Reddit, and other time-wasting sites.</p>
+                    <a href="https://chromewebstore.google.com/detail/undistracted-hide-faceboo/pjjgklgkfeoeiebjogplpnibpfnffkng?hl=en" target="_blank" class="recommendation-link">Install</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div id="recommended-popup" class="popup" style="display: none">
             <div class="popup-content">
               <h2 class="popup-header">Recommended Sites to Block</h2>
@@ -70,6 +135,14 @@
         </div>
       </section>
     </main>
+
+    <!-- Version Update Modal -->
+<div id="version-modal" class="hidden">
+  <div class="modal-content">
+    <span id="version-modal-message"></span>
+    <button id="version-modal-close">Close</button>
+  </div>
+</div>
 
     <!-- Modal -->
     <div id="modal" class="hidden">

@@ -48,4 +48,7 @@ contextBridge.exposeInMainWorld("electron", {
     ipcRenderer.send("rewrite-hosts", content);
   },
   updateCustomUrlsJson: (urls) => ipcRenderer.invoke("update-custom-urls-json", urls),
+  onVersionUpdateAvailable: (callback) => {
+    ipcRenderer.on('version-update-available', (_, versionInfo) => callback(versionInfo));
+  }
 });
