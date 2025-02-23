@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <title>SalamGuard - Keep Your Peace in a Digital World</title>
   </head>
   <body>
@@ -24,7 +25,7 @@
       </div>
 
       <section id="block-custom-container" class="hidden">
-        <div class="tab-container">
+       <div class="tab-container">
           <ul class="tabs">
             <li class="tab-item active" data-target="custom-sites">
               Block Sites
@@ -35,28 +36,65 @@
           </ul>
 
           <div class="tab-content" id="custom-sites">
-            <h2>Additional Website Blocking</h2>
-            <p>
-              Add websites you want to block that may lead to immodest or
-              distracting content.
-            </p>
-            <div class="input-container">
-              <input
-                type="text"
-                id="custom-url"
-                placeholder="Enter a website (ex: reddit.com)"
-              />
-              <button id="add-url">Block Website</button>
+            <div class="custom-sites-header">
+              <h2>Custom Website Blocking</h2>
+              <p class="subtitle">Block any website that challenges your digital well-being</p>
             </div>
-            <ul id="custom-list"></ul>
-            <button id="see-recommended" class="aesthetic-button">
-              See Recommended Sites To Block
-            </button>
+
+            <div class="custom-sites-content">
+              <!-- Centered Button Container -->
+              <div class="curated-list-container">
+                <button id="see-recommended" class="secondary-button">
+                  <i class="fas fa-clipboard-list"></i>
+                  View Recommendations
+                </button>
+              </div>
+
+              <!-- Quick Block Section -->
+              <div class="quick-block-section">
+                <div class="block-instruction">
+                  <div class="instruction-header">
+                    <i class="fas fa-bullseye"></i>
+<span>Quick Block</span>
+                  </div>
+                  <p class="instruction-example">Examples: youtube.com, facebook.com, instagram.com</p>
+                </div>
+                <div class="input-group">
+                  <div class="input-wrapper">
+                    <input
+                      type="text"
+                      id="custom-url"
+                      placeholder="Enter website URL"
+                      class="clean-input"
+                    />
+                    <button id="add-url" class="primary-button">
+                      <span>Block</span>
+                      <i class="fas fa-bolt"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Blocked Sites Section -->
+              <div class="blocked-sites-section">
+                <div class="section-header">
+                  <div class="header-content">
+                    <i class="fas fa-ban"></i>
+                    <span>Blocked Sites</span>
+                  </div>
+                </div>
+                <div class="sites-container">
+                  <ul id="custom-list" class="clean-list"></ul>
+                </div>
+              </div>
+            </div>
           </div>
 
           <div class="tab-content hidden" id="recommendations">
-            <h2>App & Extension Recommendations</h2>
-            <p>These tools can help strengthen your digital protection.</p>
+            <div class="custom-sites-header">
+              <h2>App & Extension Recommendations</h2>
+              <p class="subtitle">Enhance your digital protection with these trusted tools</p>
+            </div>
             
             <div class="recommendations-container">
               <div class="recommendation-section">
@@ -99,8 +137,7 @@
                     <img src="../assets/images/tahir.png" alt="Tahir" />
                     <h4>Tahir</h4>
                     <p>Tahir
-                        allows you to blur images by default on any website you browse
-                      , with the option to uncover them if need be.</p>
+                        allows you to blur images by default on any website you browse, with the option to uncover them if need be.</p>
                     <a href="https://chromewebstore.google.com/detail/tahir/ihmoammkfbdpokfiiifajdkfglmfejca" target="_blank" class="recommendation-link">Install</a>
                   </div>
                   <div class="recommendation-card">
@@ -123,12 +160,9 @@
           <div id="recommended-popup" class="popup" style="display: none">
             <div class="popup-content">
               <h2 class="popup-header">Recommended Sites to Block</h2>
-              <p class="popup-text">
-                We recommend blocking these sites as although they are not
-                intended for haram, they tend to contain much haram content.
-                It's better to be safe than sorry.
-              </p>
+              <p class="popup-text">These sites are known to often contain explicit content. If one is able to, it is recommended to block them:</p>
               <ul id="recommended-list" class="scrollable-list"></ul>
+              
               <button id="close-popup" class="aesthetic-button">Close</button>
             </div>
           </div>

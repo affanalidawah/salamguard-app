@@ -171,7 +171,7 @@ document.addEventListener("DOMContentLoaded", async () => {
               </li>`
           )
           .join("")
-      : "<p>No custom URLs added yet.</p>";
+      : "<p style='color: #8af6e5; font-size: 1.2rem; font-weight: 600; text-align: center; margin-top: 2rem; margin-bottom: 2rem; font-style: italic; font-family: 'SF Pro Text', 'SF Pro Icons', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;'>No additional sites are blocked</p>";
   }
 
   // Refresh Custom URL List
@@ -586,13 +586,33 @@ document.addEventListener("DOMContentLoaded", async () => {
       RECOMMENDED_SITES.forEach(site => {
         const isBlocked = customUrls.includes(site);
         const li = document.createElement("li");
-        li.textContent = site;
+        
+        // Create span for site name
+        const siteSpan = document.createElement("span");
+        siteSpan.textContent = site;
+        li.appendChild(siteSpan);
 
+        // Create button with updated styling
         const button = document.createElement("button");
         button.textContent = isBlocked ? "Unblock" : "Block";
         button.className = "aesthetic-button";
-        button.addEventListener("click", () => handleSiteToggle(site, button));
+        button.setAttribute("data-state", isBlocked ? "blocked" : "unblocked");
+        
+        // Add hover effect
+        button.addEventListener("mouseover", () => {
+          if (isBlocked) {
+            button.textContent = "Unblock";
+          }
+        });
 
+        button.addEventListener("mouseout", () => {
+          if (isBlocked) {
+            button.textContent = "Blocked";
+          }
+        });
+
+        button.addEventListener("click", () => handleSiteToggle(site, button));
+        
         li.appendChild(button);
         recommendedList.appendChild(li);
       });
